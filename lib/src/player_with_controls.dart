@@ -1,8 +1,6 @@
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/helpers/adaptive_controls.dart';
-import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerWithControls extends StatelessWidget {
@@ -35,8 +33,7 @@ class PlayerWithControls extends StatelessWidget {
     ) {
       return Stack(
         children: <Widget>[
-          if (chewieController.placeholder != null)
-            chewieController.placeholder!,
+          if (chewieController.placeholder != null) chewieController.placeholder!,
           InteractiveViewer(
             transformationController: chewieController.transformationController,
             maxScale: chewieController.maxScale,
@@ -44,34 +41,33 @@ class PlayerWithControls extends StatelessWidget {
             scaleEnabled: chewieController.zoomAndPan,
             child: Center(
               child: AspectRatio(
-                aspectRatio: chewieController.aspectRatio ??
-                    chewieController.videoPlayerController.value.aspectRatio,
+                aspectRatio: chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
                 child: VideoPlayer(chewieController.videoPlayerController),
               ),
             ),
           ),
           if (chewieController.overlay != null) chewieController.overlay!,
-          if (Theme.of(context).platform != TargetPlatform.iOS)
-            Consumer<PlayerNotifier>(
-              builder: (
-                BuildContext context,
-                PlayerNotifier notifier,
-                Widget? widget,
-              ) =>
-                  Visibility(
-                visible: !notifier.hideStuff,
-                child: AnimatedOpacity(
-                  opacity: notifier.hideStuff ? 0.0 : 0.8,
-                  duration: const Duration(
-                    milliseconds: 250,
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3)),
-                    child: SizedBox.expand(),
-                  ),
-                ),
-              ),
-            ),
+          // if (Theme.of(context).platform != TargetPlatform.iOS)
+          //   Consumer<PlayerNotifier>(
+          //     builder: (
+          //       BuildContext context,
+          //       PlayerNotifier notifier,
+          //       Widget? widget,
+          //     ) =>
+          //         Visibility(
+          //       visible: !notifier.hideStuff,
+          //       child: AnimatedOpacity(
+          //         opacity: notifier.hideStuff ? 0.0 : 0.8,
+          //         duration: const Duration(
+          //           milliseconds: 250,
+          //         ),
+          //         child: DecoratedBox(
+          //           decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3)),
+          //           child: SizedBox.expand(),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
           if (!chewieController.isFullScreen)
             buildControls(context, chewieController)
           else
@@ -83,8 +79,7 @@ class PlayerWithControls extends StatelessWidget {
       );
     }
 
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return Center(
         child: SizedBox(
           height: constraints.maxHeight,
